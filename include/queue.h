@@ -1,41 +1,66 @@
-﻿#ifndef __Stack_H__
-#define __Stack_H__
+﻿#ifndef __Queue_H__
+#define __Queue_H__
 
 #include <iostream>
 #include <vector>
 
-using namespace std;
 
 template <class T>
-class Stack
+class Queue
 {
 protected:
-	vector<T> data;
+	std::vector<T> data;
+	size_t head;
+	size_t tail;
+	size_t size_q;
+	size_t max_size_q;
 
 public:
-	void push(const T& val) {
-		data.push_back(val);
-	}
-	void pop() {
-		if (empty())
-			throw "1";
-		data.pop_back();
-	}
-	
-	T& top(){
-		if (empty())
-			throw "1";
-		return data.back();
-	}
+    Queue<T>(size_t size) : max_size_q(size), head(0), tail(0), size_q(0) {
+        data.resize(max_size_q);
+    }
 
-	bool empty() {
-		return data.empty();
-	}
+    size_t get_size() const { 
+        return size_q;
+    }
 
-	size_t size() {
-		return data.size();
-	}
+    bool full() const {
+        return (size_q == max_size_q);
+    }
 
+    bool empty() const {
+        return (size_q == 0);
+    }
+
+    void push(const T& elem) {
+        if (full()) {
+            throw 1;
+        }
+
+        data[tail] = elem;
+        tail = (tail + 1) % max_size_q;
+        size_q++;
+    }
+
+    void pop() {
+        if (empty()) {
+            throw 1;
+        }
+
+        head = (head + 1) % max_size_q;
+        size_q--;
+    }
+
+    const T& front() const {
+        if (empty()) {
+            throw 1;
+        }
+        return data[head];
+    }
+
+    size_t size() const {  
+        return size_q;
+    }
 };
 
 #endif
