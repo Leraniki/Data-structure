@@ -1,71 +1,84 @@
-#include "stack.h"
+#include "queue.h"
 
 #include <gtest.h>
 
-TEST(Stack, can_create_stack) {
-	ASSERT_NO_THROW(Stack<int> s);
+TEST(Queue, is_empty) {
+    Queue<int> q(5);
+
+    EXPECT_EQ(q.empty(), true);
 }
 
-TEST(Stack, can_push_to_stack) {
-	Stack<int> s;
+TEST(Queue, push) {
+    Queue<int> q(5);
 
-	s.push(2);
+    q.push(10);
 
-	EXPECT_EQ(1,s.size());
+    ASSERT_EQ(q.get_size(), 1);
+    ASSERT_EQ(q.front(), 10);
 }
 
-TEST(Stack, can_pop_from_stack) {
-	Stack<int> s;
+TEST(Queue, pop) {
+    Queue<int> q(5);
 
-	s.push(2);
+    q.push(20);
+    q.pop();
 
-	ASSERT_NO_THROW(s.pop());
+    EXPECT_EQ(q.empty(), true);    
 }
 
-TEST(Stack, can_top_stack) {
-	Stack<int> s;
 
-	s.push(2);
-	s.push(5);
+TEST(Queue, push_pop) {
+    Queue<int> q(5);
 
-	ASSERT_NO_THROW(s.top());
-	EXPECT_EQ(5, s.top());
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.pop();
+
+    ASSERT_EQ(q.get_size(), 2);
+    ASSERT_EQ(q.front(), 2);
+    q.pop();
+    ASSERT_EQ(q.front(), 3);
 }
 
-TEST(Stack, check_empty_stack) {
-	Stack<int> s;
+TEST(Queue, is_full) {
+    Queue<int> q(3);
 
-	s.push(2);
-	s.push(5);
+    q.push(1);
+    q.push(2);
+    q.push(3);
 
-	EXPECT_EQ(false, s.empty());
+    ASSERT_TRUE(q.full());
+
 }
 
-TEST(Stack, get_size_of_stack) {
-	Stack<int> s;
 
-	s.push(2);
-	s.push(5);
+TEST(Queue, pop_from_empty) {
+    Queue<int> q(3);
 
-	EXPECT_EQ(2, s.size());
+    ASSERT_ANY_THROW(q.pop());
 }
 
-TEST(Stack, pop_push) {
-	Stack<int> s;
 
-	s.push(1);
-	s.push(2);
-	s.push(3);
+TEST(Queue, front_from_empty) {
+    Queue<int> q(3);
 
-	s.pop();
-	s.pop();
+    ASSERT_ANY_THROW(q.front());
+}
 
-	s.push(4);
-	s.push(5);
+TEST(Queue, repacking) {
+    Queue<int> q(5);
 
-	s.pop();
-	s.pop();
-	s.pop();
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.pop();
+    q.pop(); 
 
-	EXPECT_EQ(0, s.size());
+    q.repack();
+
+    ASSERT_EQ(q.get_head(), 0);
+    ASSERT_EQ(q.get_tail(), 1);
+    ASSERT_EQ(q.size(), 1);
+    ASSERT_EQ(q.front(), 3);
 }
