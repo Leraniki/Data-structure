@@ -2,13 +2,13 @@
 
 #include <gtest.h>
 
-TEST(QueueTest, is_empty) {
+TEST(Queue, is_empty) {
     Queue<int> q(5);
 
     EXPECT_EQ(q.empty(), true);
 }
 
-TEST(QueueTest, push) {
+TEST(Queue, push) {
     Queue<int> q(5);
 
     q.push(10);
@@ -17,7 +17,7 @@ TEST(QueueTest, push) {
     ASSERT_EQ(q.front(), 10);
 }
 
-TEST(QueueTest, pop) {
+TEST(Queue, pop) {
     Queue<int> q(5);
 
     q.push(20);
@@ -27,7 +27,7 @@ TEST(QueueTest, pop) {
 }
 
 
-TEST(QueueTest, push_pop) {
+TEST(Queue, push_pop) {
     Queue<int> q(5);
 
     q.push(1);
@@ -41,7 +41,7 @@ TEST(QueueTest, push_pop) {
     ASSERT_EQ(q.front(), 3);
 }
 
-TEST(QueueTest, is_full) {
+TEST(Queue, is_full) {
     Queue<int> q(3);
 
     q.push(1);
@@ -53,15 +53,32 @@ TEST(QueueTest, is_full) {
 }
 
 
-TEST(QueueTest, pop_from_empty) {
+TEST(Queue, pop_from_empty) {
     Queue<int> q(3);
 
     ASSERT_ANY_THROW(q.pop());
 }
 
 
-TEST(QueueTest, front_from_empty) {
+TEST(Queue, front_from_empty) {
     Queue<int> q(3);
 
     ASSERT_ANY_THROW(q.front());
+}
+
+TEST(Queue, repacking) {
+    Queue<int> q(5);
+
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.pop();
+    q.pop(); 
+
+    q.repack();
+
+    ASSERT_EQ(q.get_head(), 0);
+    ASSERT_EQ(q.get_tail(), 1);
+    ASSERT_EQ(q.size(), 1);
+    ASSERT_EQ(q.front(), 3);
 }

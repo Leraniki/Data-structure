@@ -61,6 +61,30 @@ public:
     size_t size() const {  
         return size_q;
     }
+
+    void repack() {
+        if (head == 0)
+            return;
+        else {
+            std::vector <T> new_data(max_size_q);
+            for (int i = 0; i < size_q; i++) {
+                new_data[i] = data[(head + i) % max_size_q];
+                
+            }
+            data = new_data;
+            head = 0;
+            tail = size_q;
+          
+        }
+    }
+
+    size_t get_head() {
+        return head;
+    }
+
+    size_t get_tail() {
+        return tail;
+    }
 };
 
 #endif
